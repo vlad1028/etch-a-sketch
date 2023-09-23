@@ -3,9 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/styles.css">
     <title>Etch-a-Sketch</title>
 </head>
 <body>
-    <script src=".scripts/canvas.js"></script>
+    <script src="./scripts/canvas.js" defer></script>
+
+    <div id="slider-container">
+        <input id="size-slider" type="range" min="8" max="64" step="1" />
+        <output id="border-size"></output>
+    </div>
+    <div id="canvas"></div>
+    <button id="clear-btn">Clear</button>
 </body>
 </html>
