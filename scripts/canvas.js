@@ -1,7 +1,21 @@
 const canvas = document.querySelector('#canvas');
-const borderSize = document.querySelector('#border-size');
 const sizeSlider = document.querySelector('#size-slider');
-borderSize.textContent = sizeSlider.value;
+const boardSizeRepresentation = document.querySelector('#board-size');
+
+function setBoardSizeRepresentation() {
+    size = sizeSlider.value;
+    boardSizeRepresentation.textContent = `${size} x ${size}`;
+}
+
+setBoardSizeRepresentation();
+sizeSlider.addEventListener('input', (event) => {
+    setBoardSizeRepresentation();
+    resetBoard();
+})
+
+function currentBoardSize() {
+    return sizeSlider.value;
+}
 
 function createBlock() {
     let block = document.createElement('div');
@@ -27,14 +41,25 @@ function createRowOfBlocks(size) {
     return row;
 }
 
-function createGrid(rows, cols) {
+function createBoard(rows, cols) {
     for (let i = 0; i < rows; i++) {
         let row = createRowOfBlocks(cols);
         canvas.appendChild(row);
     }
 }
 
-createGrid(sizeSlider.value, sizeSlider.value);
+function clearBoard() {
+    let blocks = document.querySelectorAll('.block');
+    blocks.forEach(block => paintBlock(block, 'white'));
+}
+
+function resetBoard() {
+    canvas.replaceChildren();
+    createBoard(currentBoardSize(), currentBoardSize());
+    blocks = document.querySelectorAll('.block');
+}
+
+createBoard(currentBoardSize(), currentBoardSize());
 
 let mouseDown = false;
 document.body.onmousedown = () => (mouseDown = true);
@@ -45,27 +70,10 @@ function paintBlock(block, color) {
 }
 
 function updateState(e) {
-    console.log(e.target);
     if (e.type === 'mouseover' && !mouseDown)
         return;
     paintBlock(e.target, 'black');
 }
 
-function clearGrid() {
-    let blocks = document.querySelectorAll('.block');
-    blocks.forEach(block => paintBlock(block, 'white'));
-}
-
-function resetGrid() {
-    canvas.replaceChildren();
-    createGrid(sizeSlider.value, sizeSlider.value);
-    blocks = document.querySelectorAll('.block');
-}
-
 const clearBtn = document.querySelector('#clear-btn');
-clearBtn.addEventListener('click', clearGrid);
-
-sizeSlider.addEventListener('input', (event) => {
-    borderSize.textContent = event.target.value;
-    resetGrid();
-})
+clearBtn.addEventListener('click', clearBoard);
