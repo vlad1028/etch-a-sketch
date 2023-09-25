@@ -1,2 +1,2 @@
 # etch-a-sketch
-Play: https://github.com/vlad1028/etch-a-sketch
+Play: https://vlad1028.github.io/etch-a-sketch/
